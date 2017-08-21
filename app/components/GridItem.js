@@ -28,26 +28,25 @@ class GridItem extends React.Component {
             isSelected: !this.state.isSelected,
         });
         this.state.isSelected ? this.props.deleteImage(this.props.image.uri):this.props.addImage(this.props.image);
-        this._scale();
-        this._border();
+        this._animate();
     }
 
-    _scale() {
+    _animate() {
         this.state.scale.setValue(0);
-        Animated.timing(this.state.scale, {
-            toValue: 1.0,
-            duration: 400,
-            easing: Easing.easeOutBack,
-        }).start();
-    }
+        const borderToValue = this.state.isSelected ? 0:1.0;
+        Animated.parallel([
+            Animated.timing(this.state.scale, {
+                toValue: 1.0,
+                duration: 400,
+                easing: Easing.easeOutBack,
+            }),
 
-    _border() {
-        const toValue = this.state.isSelected ? 0:1.0;
-        Animated.timing(this.state.opacity, {
-            toValue: toValue,
-            duration: 150,
-            easing: Easing.easeOutBack,
-        }).start();
+            Animated.timing(this.state.opacity, {
+                toValue: borderToValue,
+                duration: 150,
+                easing: Easing.easeOutBack,
+            })
+        ]).start();
     }
 
     render() {
@@ -71,7 +70,7 @@ class GridItem extends React.Component {
             width: theme.gridItem.imageWidth,
             height: theme.gridItem.imageHeight,
             borderColor: theme.style.foregroundColor,
-            borderWidth: theme.style.borderWidth,
+            borderWidth: theme.gridItem.borderWidth,
             opacity: this.state.opacity,
         };
 

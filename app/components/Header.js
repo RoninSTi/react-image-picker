@@ -5,10 +5,6 @@ import { connect } from 'react-redux';
 import { ActionCreators } from '../actions';
 
 class Header extends React.Component {
-    static propTypes = {
-        theme: React.PropTypes.object.isRequired,
-    }
-
     constructor(props) {
         super(props);
     }
@@ -29,19 +25,19 @@ class Header extends React.Component {
         const {height, width} = Dimensions.get('window');
         const size = {
             width: width,
-            height: theme.headerHeight,
+            height: theme.header.height,
         }
 
         const style = {
-            backgroundColor: theme.headerBackgroundColor,
+            backgroundColor: theme.header.backgroundColor,
             justifyContent: 'center',
         }
 
         const text = {
             textAlign: 'center',
-            fontSize: theme.fontSize,
-            fontFamily: theme.fontFamily,
-            color: theme.headerTitleColor,
+            fontSize: theme.style.fontSize,
+            fontFamily: theme.style.fontFamily,
+            color: theme.header.color,
         }
 
         const shadow = {
@@ -56,7 +52,7 @@ class Header extends React.Component {
 
         const titleText = this._titleText();
 
-        const headerStyles = theme.headerShadow ? [size, style, shadow]:[size, style];
+        const headerStyles = theme.header.displayShadow ? [size, style, shadow]:[size, style];
 
         return (
             <View style={headerStyles}>
@@ -72,10 +68,10 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-export default connect((state) => { 
+export default connect((state) => {
   return {
     selectedImages: state.selectedImages,
     selectedImageCount: state.selectedImageCount,
-    headerTitleText: state.headerTitleText,
+    theme: state.theme,
   }
 }, mapDispatchToProps)(Header);

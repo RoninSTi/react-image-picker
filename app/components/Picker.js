@@ -7,12 +7,13 @@ import { connect } from 'react-redux';
 import { ActionCreators } from '../actions';
 
 import GridItem from './GridItem';
+import Header from './Header';
 
 
 class Picker extends React.Component {
   constructor(props) {
     super(props);
-    this.props.setTheme(this.props.themeOverride);
+    this.props.setTheme(props.themeOverride);
   }
 
   componentDidMount() {
@@ -41,6 +42,7 @@ class Picker extends React.Component {
     };
     return ( 
       <View style={ container }>
+        <Header />
         <FlatList
            contentContainerStyle={[styles.list, margin]}
            data={this.props.fetchedImages}
