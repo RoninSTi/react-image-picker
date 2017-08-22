@@ -1,12 +1,13 @@
 import React from 'react';
-import { Animated, Dimensions, Easing, StyleSheet, Text, View } from 'react-native';
+import { Animated, Dimensions, Easing, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { ActionCreators } from '../actions';
 
 class Header extends React.Component {
-    constructor(props) {
-        super(props);
+    _prepareToDismiss() {
+        this.props.resetPicker();
+        this.props.dismissPicker();
     }
 
     _titleText() {
@@ -30,7 +31,8 @@ class Header extends React.Component {
 
         const style = {
             backgroundColor: theme.header.backgroundColor,
-            justifyContent: 'center',
+            paddingLeft: 10,
+            paddingRight: 10,
         }
 
         const text = {
@@ -50,19 +52,36 @@ class Header extends React.Component {
             shadowOpacity: 0.2
         }
 
-        const titleText = this._titleText();
-
-        const headerStyles = theme.header.displayShadow ? [size, style, shadow]:[size, style];
+        const headerStyles = theme.header.displayShadow ? [size, style, shadow, styles.container]:[styles.container, size, style];
 
         return (
             <View style={headerStyles}>
+                <TouchableHighlight onPress={() => this._prepareToDismiss() }>
+                    <Text style={ text }>
+                        Cancel
+                    </Text>
+                </TouchableHighlight>
                 <Text style={ text }>
-                    {titleText}
+                    {this._titleText()}
                 </Text>
+                <TouchableHighlight onPress={() => this.props.dismissPicker() }>
+                    <Text style={ text }>
+                        Select
+                    </Text>
+                </TouchableHighlight>
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingTop: 30,
+        paddingBottom: 10,
+    }
+});
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(ActionCreators, dispatch);
@@ -73,5 +92,6 @@ export default connect((state) => {
     selectedImages: state.selectedImages,
     selectedImageCount: state.selectedImageCount,
     theme: state.theme,
+    nav: state.nav,
   }
 }, mapDispatchToProps)(Header);

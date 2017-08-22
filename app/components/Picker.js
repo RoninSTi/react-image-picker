@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 
 //REDUX Imports
 import { bindActionCreators } from 'redux';
@@ -11,11 +11,6 @@ import Header from './Header';
 
 
 class Picker extends React.Component {
-  constructor(props) {
-    super(props);
-    this.props.setTheme(props.themeOverride);
-  }
-
   componentDidMount() {
     const params = {
       first: this.props.theme.settings.imageFetchCount,
@@ -41,24 +36,24 @@ class Picker extends React.Component {
       flex: 1,
     };
     return ( 
-      <View style={ container }>
-        <Header />
-        <FlatList
-           contentContainerStyle={[styles.list, margin]}
-           data={this.props.fetchedImages}
-           renderItem={({ item }) => (
-             <GridItem image={ item }/>
-           )}
-           keyExtractor={item => item.uri}
-           numColumns={this.props.theme.grid.numColumns}
-           key={this.props.theme.grid.numColumns}
-           onEndReachedThreshold={0.5}
-           onEndReached={() => {
-             this._endReached();
-           }}
-           ListFooterComponent={this._renderFooter()}
-        />
-      </View>
+        <View style={ container }>
+          <Header />
+          <FlatList
+            contentContainerStyle={[styles.list, margin]}
+            data={this.props.fetchedImages}
+            renderItem={({ item }) => (
+              <GridItem image={ item }/>
+            )}
+            keyExtractor={item => item.uri}
+            numColumns={theme.grid.numColumns}
+            key={theme.grid.numColumns}
+            onEndReachedThreshold={0.5}
+            onEndReached={() => {
+              this._endReached();
+            }}
+            ListFooterComponent={this._renderFooter()}
+          />
+        </View>
     )
   }
 }
@@ -86,6 +81,5 @@ function mapStateToProps(state) {
     theme: state.theme,
   };
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Picker);

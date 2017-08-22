@@ -140,8 +140,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    
-  };
+    theme: state.theme,
+  }
 }
 
 

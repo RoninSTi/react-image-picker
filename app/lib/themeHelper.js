@@ -52,12 +52,18 @@ function numColumns(imageWidth = IMAGE_WIDTH, margin = MIN_MARGIN) {
 }
 
 function margin(imageWidth = IMAGE_WIDTH) {
-  const columns = numColumns();
+  
+  const columns = numColumns(imageWidth);
   const {height, width} = Dimensions.get('window');
-  return (width - (columns * imageWidth))/((2 * columns) + 2);
+
+  console.log('width: ' + width);
+  console.log('image width: ' + imageWidth);
+  console.log('columns: ' + columns);
+  return (width - (columns * imageWidth))/(2 * (columns + 1));
 }
 
 export function themeFromOverride(state, override = {}) {
+  const imageWidth = (override.gridItem && override.gridItem.imageWidth && override.gridItem.imageWidth !== 'undefined') ? override.gridItem.imageWidth:IMAGE_WIDTH;
   return Object.assign({},
       { settings: Object.assign({},
         state.settings,
@@ -73,8 +79,8 @@ export function themeFromOverride(state, override = {}) {
         state.grid,
         override.grid,
         {
-          margin: margin(override.gridItem.imageWidth),
-          numColumns: numColumns(override.gridItem.imageWidth),
+          margin: margin(imageWidth),
+          numColumns: numColumns(imageWidth),
         })
       },
       

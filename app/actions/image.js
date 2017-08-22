@@ -51,3 +51,9 @@ export function fetchingImages() {
     type: types.FETCHING_IMAGES,
   }
 }
+
+export function resetPicker() {
+  return {
+    type: types.RESET_PICKER,
+  }
+}

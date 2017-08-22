@@ -20,7 +20,7 @@ class GridItem extends React.Component {
 
     _selectedIndex() {
         const index = this.props.selectedImages.findIndex(obj => obj.uri == this.props.image.uri)
-        return index + 1;
+        return index + 1 === 0 ? " ":index + 1;
     }
 
     _handlePress() {
@@ -37,14 +37,16 @@ class GridItem extends React.Component {
         Animated.parallel([
             Animated.timing(this.state.scale, {
                 toValue: 1.0,
-                duration: 400,
+                duration: 150,
                 easing: Easing.easeOutBack,
+                useNativeDriver: true,
             }),
 
             Animated.timing(this.state.opacity, {
                 toValue: borderToValue,
-                duration: 150,
+                duration: 10,
                 easing: Easing.easeOutBack,
+                useNativeDriver: true,
             })
         ]).start();
     }
@@ -99,7 +101,8 @@ class GridItem extends React.Component {
 
         return (
             <TouchableWithoutFeedback 
-                onPress={ this._handlePress.bind(this) }>
+                onPress={ this._handlePress.bind(this) }
+                delayPressIn={ 1 }>
                 <Animated.View style={[container, scale]}>
                     <Animated.Image style={ size }
                                     source={{ uri: image.uri }} />

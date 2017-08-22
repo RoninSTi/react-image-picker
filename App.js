@@ -9,8 +9,7 @@ import reducer from './app/reducers';
 import thunkMiddleware from 'redux-thunk';
 
 //Component Imports
-import AppContainer from './app/containers/AppContainer';
-import Picker from './app/components/Picker';
+import AppWithNavigationState from './app/navigation/AppNavigator';
 
 const loggerMiddleware = createLogger({
   predicate: (getState, action) => __DEV__
@@ -30,22 +29,9 @@ const store = configureStore({});
 
 export default class App extends React.Component {
   render() {
-    const theme = {
-      grid: {
-        minMargin: 5,
-      },
-      gridItem: {
-        imageWidth: 110,
-        imageHeight: 110,
-      },
-      header: {
-        height: 80,
-      }
-    }
-
     return (
-      <Provider store={store}>
-        <Picker themeOverride={ theme }/>
+      <Provider store={ store }>
+        <AppWithNavigationState />
       </Provider>
     )
   }
